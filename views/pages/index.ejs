@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <h1>Upload Image</h1>
+    <p>Supported file type(s): all image file types</p>
+
+    <% if (uploaded_image) { %>
+    <img src="/uploads/<%= uploaded_image %>" alt="" />
+    <% } %>
+
+    <form method="post" enctype="multipart/form-data" action="/upload">
+      <input type="file" name="upload_image" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <% if (b64) { %>
+    <h1>Scan Image</h1>
+    <form method="post" action="/ocr?image=<%= b64 %>">
+      <p>fetch text from image</p>
+      <input type="submit" value="Submit" />
+    </form>
+    <% } %>
+
+    <br />
+
+    <% if (text_file) { %>
+    <h1>Change text?</h1>
+    <form method="post" action="/gpt?text=<%= text_file %>">
+      <textarea id="text_area" cols="100" rows="25" name="textarea"></textarea>
+      <input type="submit" value="Submit" />
+    </form>
+    <script>
+      url = `/output/${decodeURIComponent("<%= text_file %>")}`
+      fetch(url)
+        .then((res) => res.text())
+        .then((text) => {
+          document.getElementById("text_area").textContent = text
+        })
+    </script>
+    <% } %>
+  </body>
+</html>

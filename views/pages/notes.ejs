@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <% if (text) { %>
+    <pre id="notes" style="font-size: 1rem"></pre>
+    <script>
+      url = "/output/<%= text %>"
+      fetch(url)
+        .then((res) => res.text())
+        .then((text) => {
+          document.getElementById("notes").textContent = text
+        })
+    </script>
+    <% } %>
+  </body>
+</html>
